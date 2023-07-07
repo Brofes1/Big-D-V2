@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33627.172
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Big D V2", "Big D V2\Big D V2.csproj", "{00174EA8-1AC4-4FE9-9042-E14DC7A84523}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Big D tester", "Big D tester\Big D tester.csproj", "{2FE63EB7-0A29-4FC5-8AFB-DCCB10191027}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{00174EA8-1AC4-4FE9-9042-E14DC7A84523}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00174EA8-1AC4-4FE9-9042-E14DC7A84523}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00174EA8-1AC4-4FE9-9042-E14DC7A84523}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00174EA8-1AC4-4FE9-9042-E14DC7A84523}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FE63EB7-0A29-4FC5-8AFB-DCCB10191027}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FE63EB7-0A29-4FC5-8AFB-DCCB10191027}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FE63EB7-0A29-4FC5-8AFB-DCCB10191027}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FE63EB7-0A29-4FC5-8AFB-DCCB10191027}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F73F5528-C0F7-4598-9516-3BD8F69B22DA}
+	EndGlobalSection
+EndGlobal
