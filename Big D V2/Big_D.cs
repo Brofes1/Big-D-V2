@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Security.AccessControl;
 
 namespace Big_D_V2
@@ -9,6 +10,9 @@ namespace Big_D_V2
 
         public double mantissa;
         public double exponent;
+
+        public static Big_D zero = 0;
+        public static Big_D one = 1;
 
         public Big_D(double mantissa = 0, double exponent = 0)
         {
@@ -31,39 +35,65 @@ namespace Big_D_V2
             return this;
         }
 
-        public Big_D LogB(int b) => (Math.Log(mantissa) / Math.Log(b)) + (exponent * (Math.Log(10) / Math.Log(b)));
+        public static Big_D LogB(Big_D num, int b) => (Math.Log(num.mantissa) / Math.Log(b)) + (num.exponent * (Math.Log(10) / Math.Log(b)));
 
-        public Big_D Log2() => Math.Log2(mantissa) + (exponent * Math.Log2(10));
+        public static Big_D Log2(Big_D num) => Math.Log2(num.mantissa) + (num.exponent * Math.Log2(10));
 
-        public Big_D Log10() => Math.Log10(mantissa) + exponent;
+        public static Big_D Log10(Big_D num) => Math.Log10(num.mantissa) + num.exponent;
 
         public Big_D Clone() => new Big_D(mantissa, exponent);
 
-        public static bool operator >(Big_D num1, Big_D num2)
+        public static bool operator >(Big_D left, Big_D right)
         {
-            if (num1.exponent < num2.exponent)
+            left.Cleanup();
+            right.Cleanup();
+
+            if (left.exponent < right.exponent)
                 return false;
-            else if (num1.exponent > num2.exponent)
+            else if (left.exponent > right.exponent)
                 return true;
-            else if (num1.mantissa < num2.mantissa)
+            else if (left.mantissa < right.mantissa)
                 return false;
-            else if (num1.mantissa > num2.mantissa)
+            else if (left.mantissa > right.mantissa)
                 return true;
 
             //Equal values
             return false;
         }
 
-        public static bool operator <(Big_D num1, Big_D num2) => num2 > num1;
+        public static bool operator <(Big_D left, Big_D right) => right > left;
 
-        public static bool operator ==(Big_D num1, Big_D num2)
+        public static bool operator ==(Big_D left, Big_D right)
         {
-            if (num1.mantissa == num2.mantissa && num1.exponent == num2.exponent)
-                return true;
+            if (left.mantissa == right.mantissa && left.exponent == right.exponent) return true;
             else return false;
         }
 
-        public static bool operator !=(Big_D num1, Big_D num2) => !(num1 == num2);
+        public static bool operator !=(Big_D left, Big_D right) => !(left == right);
+
+        public static bool operator <=(Big_D left, Big_D right)
+        {
+            if (left < right || left == right) return false;
+            else return true;
+        }
+
+        public static bool operator >=(Big_D left, Big_D right)
+        {
+            if (left > right || left == right) return false;
+            else return true;
+        }
+
+        public static Big_D Max(Big_D left, Big_D right)
+        {
+            if (left > right) return left;
+            else return right;
+        }
+
+        public static Big_D Min(Big_D left, Big_D right)
+        {
+            if (right > left) return left;
+            else return right;
+        }
 
         public static Big_D operator +(Big_D left, Big_D right)
         {
@@ -105,18 +135,28 @@ namespace Big_D_V2
 
         public static Big_D operator -(Big_D left, Big_D right) => left + (right * -1);
 
-        public static Big_D Pow(Big_D left, Big_D right) => new Big_D(Math.Pow(left.mantissa, right.mantissa), left.exponent * right.mantissa * Math.Pow(10, right.exponent));
+        public static Big_D Pow(Big_D left, Big_D right) => new Big_D(Math.Pow(left.mantissa, right.mantissa * Math.Pow(10, right.exponent)), left.exponent * (right.mantissa * Math.Pow(10, right.exponent))).Cleanup();
 
         public static Big_D operator /(Big_D left, Big_D right) => left * Big_D.Pow(right, -1); 
 
         public override string ToString()
         {
             if (exponent < 3)
-                return (mantissa * Math.Pow(10, exponent)).ToString();
+                return (Math.Round(mantissa * Math.Pow(10, exponent), 3)).ToString();
             if (Math.Pow(10, 3) > exponent && exponent >= 3)
                 return $"{Math.Round(mantissa, 3)}e{exponent}";
             else
-                return $"{exponent / Math.Pow(10, Math.Floor(Math.Log10(exponent)))}e{Math.Floor(Math.Log10(exponent))}";
+                return $"e{Math.Round(exponent / Math.Pow(10, Math.Floor(Math.Log10(exponent))), 3)}e{Math.Floor(Math.Log10(exponent))}";
+        }
+
+        public string ToString(int regularDecimals = 3, int scientificDecimals = 3, int exponentialDecimals = 3, int scientificPoint = 3, int exponentialPoint = 3)
+        {
+            if (exponent < scientificPoint)
+                return Math.Round(mantissa * Math.Pow(10, exponent), regularDecimals).ToString();
+            if (Math.Pow(10, exponentialPoint) > exponent && exponent >= scientificPoint)
+                return $"{Math.Round(mantissa, scientificDecimals)}e{exponent}";
+            else
+                return $"e{Math.Round(exponent / Math.Pow(10, Math.Floor(Math.Log10(exponent))), exponentialDecimals)}e{Math.Floor(Math.Log10(exponent))}";
         }
 
         public static implicit operator Big_D(double num) => new Big_D(num);
